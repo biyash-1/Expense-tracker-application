@@ -12,7 +12,7 @@ const addTransaction = async (req, res) => {
       return res.status(401).json({ msg: "No token provided" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Ensure JWT_SECRET is defined
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); 
     const userId = decoded.id;
 
     // Ensure required fields are provided

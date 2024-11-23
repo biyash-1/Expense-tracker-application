@@ -7,50 +7,46 @@ import { parseJwt } from '../utils/parseJwt';
 const withAuth = <P extends object>(WrappedComponent: ComponentType<P>, adminRequired = false) => {
   const AuthComponent = (props: P) => {
     const router = useRouter();
-    const [loading, setLoading] = useState(true);
-    const { token, role, login, isLoggedIn } = useAuthStore(); // Use Zustand
+    const [loading, setLoading] = useState(false);
+    const token = useAuthStore(state => state.token);
+    const role = useAuthStore(state => state.role);
 
-    useEffect(() => {
-      const checkAuth = async () => {
-        if (typeof window === "undefined") return;
+    const checkAuth = async () => {
+      if (typeof window === "undefined") return;
 
-        if (token) {
-          try {
-            const decodedToken = parseJwt(token);
-            if (decodedToken && decodedToken.exp > Date.now() / 1000) {
-              login({
-                username: decodedToken.username,
-                email: decodedToken.email,
-                token,
-                role: decodedToken.role,
-              });
+      console.log("Logging in...", {token, role});
 
-              if (adminRequired && role !== "admin") {
-                router.push("/dashboard");
-              } else {
-                setLoading(false);
-              }
-            } else {
-              localStorage.removeItem("token");
-              router.push("/login");
-            }
-          } catch (error) {
-            localStorage.removeItem("token");
-            router.push("/login");
-          }
-        } else {
+      if(!token) {
+        router.push("/login");
+        return;
+      }
+
+      try {
+        const decodedToken = parseJwt(token);
+        if(!decodedToken || decodedToken.exp < (Date.now() / 1000)) {
           router.push("/login");
+          return;
         }
-      };
 
-      checkAuth();
-    }, [token, login, router, role, adminRequired]);
+        if (adminRequired && role !== "admin") {
+          router.push("/dashboard");
+          return;
+        }
+
+        // setLoading(false);
+      } catch (error) {
+        localStorage.removeItem("token");
+        router.push("/login");
+      }
+    };
+
+    checkAuth();
 
     if (loading) {
       return <div>Loading...</div>;
     }
 
-    return isLoggedIn ? <WrappedComponent {...props} /> : null;
+    return <WrappedComponent {...props} />;
   };
 
   AuthComponent.displayName = `WithAuth(${WrappedComponent.displayName || WrappedComponent.name || "Component"})`;

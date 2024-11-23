@@ -1,7 +1,7 @@
 
 "use client";
 import React from "react";
-import Image from "next/image"; // Use 'next/image' for optimized images in Next.js
+import Image from "next/image"; 
 import expense from "../app/assets/expense.jpg";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -18,9 +18,9 @@ const Home = () => {
   };
  
   return (
-    <div className="h-[100vh] flex flex-col justify-center items-center p-4">
+    <div className="h-[100vh] flex flex-col justify-center items-center p-8">
       <div className="flex flex-col md:flex-row items-center gap-6 justify-evenly w-full h-full">
-        {/* Left Side */}
+        
         <div className="flex flex-col items-start max-w-lg text-center md:text-left mb-11">
           <h1 className="text-4xl font-bold mb-4">
             Expense Tracker Application
@@ -36,7 +36,7 @@ const Home = () => {
           </Button>
         </div>
 
-        {/* Right Side */}
+       
         <div className="flex items-center justify-between mt-8 md:mt-0">
           <Image
             src={expense}
@@ -45,7 +45,7 @@ const Home = () => {
             height="0"
             className="w-auto h-[400px] rounded-lg shadow-lg"
             priority
-            // Add this line
+           
           />
         </div>
       </div>

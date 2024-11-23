@@ -20,23 +20,28 @@ const Navbar = () => {
   const {  isLoggedIn, login, logout } = useAuthStore();
 
   useEffect(() => {
-    setIsClient(true); // Set client-side flag
+    setIsClient(true); // Ensure client-side execution
     const token = localStorage.getItem('token');
+  
     if (token) {
-      const decodedToken = parseJwt(token);
-      if (decodedToken && Date.now() < decodedToken.exp * 1000 && decodedToken.username && decodedToken.email) {
-        login({ 
-          username: decodedToken.username, 
-          email: decodedToken.email, 
-          token, 
-          role: decodedToken.role || 'user' 
+      const decodedToken = parseJwt(token); // Parse the token to get user info
+      const isTokenValid = decodedToken && Date.now() < decodedToken.exp * 1000;
+  
+      if (isTokenValid) {
+        // Log the user in if the token is valid
+        login({
+          username: decodedToken.username,
+          email: decodedToken.email,
+          token,
+          role: decodedToken.role || 'user',
         });
       } else {
-        localStorage.removeItem('token');
+        localStorage.removeItem('token'); // Cleanup if invalid
         logout();
       }
     }
   }, [login, logout]);
+  
 
   const handleLogout = async () => {
     try {

@@ -30,6 +30,7 @@ const useAuthStore = create(
         });
       },
 
+
       logout: () => {
         set({
           username: null,
@@ -43,7 +44,6 @@ const useAuthStore = create(
     {
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage), // Key to store data in localStorage
-     // Use localStorage for persistence
     }
   )
 );
