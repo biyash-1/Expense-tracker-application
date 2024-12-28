@@ -49,7 +49,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>, adminReq
     return <WrappedComponent {...props} />;
   };
 
-  AuthComponent.displayName = `WithAuth(${WrappedComponent.displayName || WrappedComponent.name || "Component"})`;
+  
 
   return AuthComponent;
 };

@@ -54,7 +54,7 @@ const Transcationform: React.FC<TranscationFormProps> = ({ onSuccess }) => {
 
     try {
       const response = await axios.post(
-        "https://expense-tracker-application-backend.onrender.com/api/transaction/add",
+        "http://localhost:3001/api/transaction/add",
         { amount, type, description, date },
         {
           headers: {

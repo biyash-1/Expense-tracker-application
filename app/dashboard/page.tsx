@@ -10,7 +10,7 @@ import useAuthStore from "../../app/stores/authStore";
 
 // Define the function to fetch transactions
 const fetchTransactions = async (): Promise<any[]> => {
-  const url = "https://expense-tracker-application-backend.onrender.com";
+  const url = "http://localhost:3001";
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
   if (!token) throw new Error("You must be logged in to view transactions.");
 
