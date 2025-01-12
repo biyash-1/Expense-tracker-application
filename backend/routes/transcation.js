@@ -9,6 +9,6 @@ const { addTransaction, getTransactions } = require('../controllers/transcationC
 router.post('/add', authenticate, addTransaction);
 
 // Get all transactions for a user
-router.get('/get', authenticate, getTransactions);
+router.get('/get',authenticate, getTransactions);
 
 module.exports = router;
