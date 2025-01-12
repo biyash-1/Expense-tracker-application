@@ -42,7 +42,8 @@ const Login = () => {
   const login = useAuthStore(
     (state) => state.login
   );
-  const url = "https://expense-tracker-application-backend.onrender.com";
+  const url = "https://backend-yz2j.onrender.com";
+  // const url = "http://localhost:3001";
   
   // Login function to make API call
   const loginFunction = async (data: LoginRequestData) => {
@@ -57,9 +58,9 @@ const Login = () => {
       const { username, email, token, role } = data;
       
       // Store token in localStorage
-      if (typeof window !== "undefined") {
+    
         localStorage.setItem("token", token);
-      }
+ 
 
       // Dispatch the login action
     login({ username, email, token ,role});
@@ -142,16 +143,29 @@ const Login = () => {
             </CardContent>
             {error && <p className="text-red-500 text-center">{error}</p>}
             <CardFooter className="flex flex-col w-full gap-2 justify-center">
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Loading..." : "Login"}
-              </Button>
-              <p className="text-center">
-                Don&apos;t have an account?{" "}
-                <a href="/signup" className="text-blue-500 hover:underline">
-                  Sign up
-                </a>
-              </p>
-            </CardFooter>
+  <Button type="submit" className="w-full" disabled={loading}>
+    {loading ? "Loading..." : "Login"}
+  </Button>
+  <Button
+    type="button"
+    className="w-full bg-gray-300 hover:bg-gray-400 text-black"
+    onClick={() => {
+      setEmail("guest@gmail.com");
+      setPassword("12345");
+      mutation.mutate({ email: "guest4@gmail.com", password: "0000" });
+    }}
+    disabled={loading}
+  >
+    {loading ? "Logging in as Guest..." : "Login as Guest"}
+  </Button>
+  <p className="text-center">
+    Don&apos;t have an account?{" "}
+    <a href="/signup" className="text-blue-500 hover:underline">
+      Sign up
+    </a>
+  </p>
+</CardFooter>
+
           </form>
         </Card>
       )}

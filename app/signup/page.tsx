@@ -22,7 +22,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const url = "https://expense-tracker-application-backend.onrender.com";
+  const url = "https://backend-yz2j.onrender.com";
 
   // Signup function to make API call
   const signupFunction = async (data: { username: string; email: string; password: string }) => {

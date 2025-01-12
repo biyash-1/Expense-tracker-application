@@ -23,11 +23,13 @@ interface Transaction {
 }
 
 const fetchTransactions = async (): Promise<Transaction[]> => {
-  const url = "https://expense-tracker-application-backend.onrender.com";
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const url = "https://backend-yz2j.onrender.com/";
+  // const url = "http://localhost:3001";
+  const token = localStorage.getItem("token")
   if (!token) throw new Error("You must be logged in to view transactions.");
 
   const response = await axios.get(`${url}/api/transaction/get`, {
+    
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data.transactions;

@@ -51,10 +51,12 @@ const Transcationform: React.FC<TranscationFormProps> = ({ onSuccess }) => {
     }
 
     setLoading(true); 
+    const url = "https://backend-yz2j.onrender.com";
+// const url = "http://localhost:3001";
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/transaction/add",
+       `${url}/api/transaction/add`,
         { amount, type, description, date },
         {
           headers: {

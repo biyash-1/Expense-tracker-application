@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
-import ClientLayout from "./clinetLayout"; // Ensure the import path is correct
+// Ensure the import path is correct
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
 
@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body className={inter.className}>
         <Toaster />
-        <ClientLayout>
+        
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -33,7 +33,7 @@ export default function RootLayout({
             <Navbar />
             <Providers>{children}</Providers>
           </ThemeProvider>
-        </ClientLayout>
+     
       </body>
     </html>
   );

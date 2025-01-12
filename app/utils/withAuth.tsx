@@ -1,57 +1,27 @@
-import React, { ComponentType, useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import useAuthStore from "../stores/authStore";
-import { parseJwt } from '../utils/parseJwt';
- 
 
-const withAuth = <P extends object>(WrappedComponent: ComponentType<P>, adminRequired = false) => {
-  const AuthComponent = (props: P) => {
+const withAuth = (WrappedComponent: React.FC) => {
+  const AuthenticatedComponent = (props: any) => {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const token = useAuthStore(state => state.token);
-    const role = useAuthStore(state => state.role);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const checkAuth = async () => {
-      if (typeof window === "undefined") return;
-
-      console.log("Logging in...", {token, role});
-
-      if(!token) {
-        router.push("/login");
-        return;
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        router.replace("/login"); // Redirect to login if not authenticated
+      } else {
+        setIsAuthenticated(true); // Mark as authenticated once the token is validated
       }
+    }, [router]);
 
-      try {
-        const decodedToken = parseJwt(token);
-        if(!decodedToken || decodedToken.exp < (Date.now() / 1000)) {
-          router.push("/login");
-          return;
-        }
-
-        if (adminRequired && role !== "admin") {
-          router.push("/dashboard");
-          return;
-        }
-
-        // setLoading(false);
-      } catch (error) {
-        localStorage.removeItem("token");
-        router.push("/login");
-      }
-    };
-
-    checkAuth();
-
-    if (loading) {
-      return <div>Loading...</div>;
-    }
+    if (!isAuthenticated) return null; // Render nothing until authentication is checked
 
     return <WrappedComponent {...props} />;
   };
 
-  
-
-  return AuthComponent;
+  return AuthenticatedComponent;
 };
 
 export default withAuth;

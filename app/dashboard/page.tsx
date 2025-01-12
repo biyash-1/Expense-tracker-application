@@ -10,9 +10,10 @@ import useAuthStore from "../../app/stores/authStore";
 
 // Define the function to fetch transactions
 const fetchTransactions = async (): Promise<any[]> => {
-  const url = "http://localhost:3001";
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-  if (!token) throw new Error("You must be logged in to view transactions.");
+  const url = "https://backend-yz2j.onrender.com";
+ 
+  const token =  localStorage.getItem("token");
+  // if (!token) throw new Error("You must be logged in to view transactions.");
 
   const response = await axios.get(`${url}/api/transaction/get`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -88,4 +89,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);
